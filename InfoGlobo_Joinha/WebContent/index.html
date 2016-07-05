@@ -1,0 +1,302 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:na="http://schema.org/" lang="pt-br">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
+</script>
+<script>
+var jsonText = "";
+window.onload = function() {
+	var jsonObj = JSON.parse(jsonText) || [];
+
+	for (i=0;i<jsonObj.length;i++) {
+		var qtdDislikes = jsonObj[i].dislikes;
+		var qtdLikes    = jsonObj[i].likes;
+		var postId      = jsonObj[i].postId;
+		
+		document.getElementById("l" + postId).innerHTML = '<p>Gostei ('     + qtdLikes    + ')</p>';
+		document.getElementById("d" + postId).innerHTML = '<p>Não Gostei (' + qtdDislikes + ')</p>';
+	}
+}
+function CallGet()
+{
+	try
+	{
+		$.ajax({
+			type: "GET",
+			url: "http://localhost:8080/InfoGlobo_Joinha/joinha?callback=?",
+			async: true,
+			success: function(response) {
+				try
+				{
+					jsonText = response.toString();
+				}
+				catch(err)
+				{
+					window.alert(err.message);
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert("Error, status=" + textStatus + ", errorThrown: " + errorThrown);
+			}
+		}).fail(function() {alert('ajax call failed')});
+	}
+	catch(err)
+	{
+		window.alert(err.message);
+	}
+}
+CallGet();
+function CallPost(postId)
+{
+	try
+	{
+		$.ajax({
+			type: "POST",
+			url: "http://localhost:8080/InfoGlobo_Joinha/joinha",
+			data: postId.toString(),
+			dataType: "text",
+			contentType: "text/plain",
+			async: false,
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert("Error, status=" + textStatus + ", errorThrown: " + errorThrown);
+			}
+		});
+		
+		window.location.reload(false);
+	}
+	catch(err)
+	{
+		window.alert(err.message);
+	}
+}
+function CallLike(postId)
+{
+	// unique odd number:
+	var oddId = postId * 2;
+	CallPost(oddId);
+	window.location.hash = "id_do_post_" + postId;
+}
+function CallUnlike(postId)
+{
+	//unique non-odd number:
+	var notOddId = 1 + (postId * 2);
+	CallPost(notOddId);
+	window.location.hash = "id_do_post_" + postId;
+}
+</script>
+   <head>
+      <title>Desafio "Joinha"</title>
+      <meta charset="utf-8">
+      <link rel="stylesheet" href="http://i.glbimg.com/og/ig/infoglobo1/static/blog/_css/oglobo.css" />
+      <link rel="stylesheet" href="http://i.glbimg.com/og/ig/infoglobo1/static/blog/_css/style.css" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="shortcut icon" href="http://i.glbimg.com/og/ig/infoglobo1/static/blog/_img/favicon.ico">
+	  <style>
+		#content article.post .share {
+			opacity:1;
+		}
+		.leftBar .box {
+			padding: 80px 12% 20px;
+		}
+		.top-header h2 a,.top-header h2 a.active,.top-header ul.menu-interacao > li > a,.top-header #bt-menu,.navegacao-central .inner-editoria,.top-header ul.menu-interacao > li ul li a,.col-right .publicidade-arroba-home b,.lateral b{
+			background-image: initial;
+		}
+		.post .share p {
+			font-size: 17px;
+			font-weight: 700;
+		}
+		.post .share ul li.comment {
+			width: 84px;
+		}
+	  </style>
+   </head>
+   <body id="home">
+      <hr id="faixanacional" class="borders" />
+      <header class="top-header" id="sticker">
+         <div class="header-container">
+            <div class="row">
+               <div class="large-16 columns">
+                  <div class="navegacao-container">
+                     <div class="logo-container">
+                        <div class="logo" itemscope itemtype="http://schema.org/Organization">
+                           <a itemprop="url" href="http://oglobo.globo.com/">Home</a>
+                           <img itemprop="logo" src="http://i.glbimg.com/og/ig/infoglobo1/static/_img/logo_globo@2x.png" />
+                        </div>
+                     </div>
+                  </div>
+                  <h2 id="bt-editoria" data-editoria="brasil"><a href="#" title="brasil">Meu Blog</a></h2>
+               </div>
+            </div>
+         </div>
+      </header>
+      <header id="blogHeader" role="banner" class="black">
+         <div class="wrapper middle black" style="background-image: url('http://og.infg.com.br/in/18690674-f7e-df0/FT1500A/2013_630833510-2013072221815.jpg_20130722.jpg');"></div>
+      </header>
+      <section id="container">
+         <section id="content">
+            <aside class="leftBar">
+               <div class="box black">
+                  <h1>
+                     <a href="#" class="wtext" style="font-size: 48px; visibility: visible;">
+                     Meu Blog
+                     </a>
+                     <i class="fa fa-chevron-down"></i>
+                  </h1>
+               </div>
+            </aside>
+            <div class="list">
+               <ul>
+                  <li>
+                     <article class="post">
+                        <div class="entry">
+                           <p class="tag">STJ</p>
+                           <h2><a href="http://blogs.oglobo.globo.com/ancelmo/post/plano-de-saude-se-nega-pagar-quimioterapia.html">Plano de saúde se nega a pagar quimioterapia</a></h2>
+                           <div class="meta">
+                              <p class="author">por <span>Ana Cláudia Guimarães</span></p>
+                              <time datetime="20/06/2016 16:45">20/06/2016 16:45</time>
+                           </div>
+                           <p></p>
+                           <p>Uma senhora, &nbsp;moradora do Rio Grande do Sul, com câncer de mama agressivo teve que retirar os seios e &nbsp;fazer 18 sessões de quimioterapia. O plano de saúde, porém, se recursou a pagar o tratamento de forma integral e determinou que a paciente pagasse R$ 4.870 por cada sessão. A primeira instância negou o pedido, entendendo ser legal a co-participação. Já a 5ª Câmara Cível aceitou o recurso, determinando que o plano de saúde pague o tratamento de forma integral.&nbsp; O plano de saúde recorreu ao STJ. O julgamento é hoje no STJ.</p>
+                           <p></p>
+                           <div class="share">
+                              <div>
+                                 <ul>
+                                    <li class="comment">
+                                       <a id='l1' href="#id_do_post_1" onclick="CallLike(1);">
+                                          <p>Gostei (3)</p>
+                                       </a>
+                                    </li>
+									<li class="comment">
+										<a id='d1' href="#id_do_post_1"  onclick="CallUnlike(1);">
+                                          <p>Não Gostei (1)</p>
+                                       </a>
+									</li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+                     </article>
+                  </li>
+                  <li>
+                     <article class="post">
+                        <div class="entry">
+                           <p class="tag">Música</p>
+                           <h2><a href="http://blogs.oglobo.globo.com/ancelmo/post/filho-de-frejat-assina-com-gravadora-para-lancar-seu-primeiro-disco.html">Filho de Frejat assina com gravadora para lançar seu primeiro disco</a></h2>
+                           <div class="meta">
+                              <p class="author">por <span>Ana Cláudia Guimarães</span></p>
+                              <time datetime="20/06/2016 16:00">20/06/2016 16:00</time>
+                           </div>
+                           <p></p>
+                           <p>Filho do Frejat Rafael Frejat, o filho do roqueiro Frejat, assinou com a Deck Discos para fazer o CD de sua banda, a "Amarelo manga" O disco será lançado no dia 1º e se chamará "Nuca".</p>
+                           <p></p>
+                           <div class="share">
+                              <div>
+                                 <ul>
+                                    <li class="comment">
+                                       <a id='l2' href="#id_do_post_2" onclick="CallLike(2);">
+                                          <p>Gostei (32)</p>
+                                       </a>
+                                    </li>
+									<li class="comment">
+										<a id='d2' href="#id_do_post_2" onclick="CallUnlike(2);">
+                                          <p>Não Gostei (2)</p>
+                                       </a>
+									</li>
+                                 </ul>
+                              </div>
+                           </div>
+                        </div>
+                     </article>
+                  </li>
+                  <li>
+                     <article class="post">
+                        <div class="entry">
+                           <p class="tag">Internet</p>
+                           <h2><a href="http://blogs.oglobo.globo.com/ancelmo/post/bloqueira-camila-coutinho-lancara-seu-primeiro-livro.html">Bloqueira Camila Coutinho lançará seu primeiro livro</a></h2>
+                           <div class="meta">
+                              <p class="author">por <span>Ana Cláudia Guimarães</span></p>
+                              <time datetime="20/06/2016 15:30">20/06/2016 15:30</time>
+                           </div>
+                           <p></p>
+                           <p>Rede social A blogueira recifense Camila Coutinho, que tem dois milhões de seguidores no Instagram, lança seu primeiro livro, pela Intrínseca, em outubro.  Nele, Camila conta como uma brincadeira entre amigas fez com que ela fosse convidada para as primeiras filas das principais semanas de moda do mundo.</p>
+                           <p></p>
+                           <div class="share">
+                              <div>
+                                 <ul>
+                                    <li class="comment">
+                                       <a id='l3' href="#id_do_post_3" onclick="CallLike(3);">
+                                          <p>Gostei (54)</p>
+                                       </a>
+                                    </li>
+									<li class="comment">
+										<a id='d3' href="#id_do_post_3" onclick="CallUnlike(3);">
+                                          <p>Não Gostei (7)</p>
+                                       </a>
+									</li>
+                                 </ul>
+                              </div>
+                        </div>
+                     </article>
+                  </li>
+               </ul>
+            </div>
+         </section>
+         <aside class="sidebar"></aside>
+      </section>
+      <footer>
+         <div class="bar">
+            <div class="wrapper">
+               <div class="logoFooter">
+                  <a rel="nofollow" href="http://oglobo.globo.com/" target="_blank"><img src="http://i.glbimg.com/og/ig/infoglobo1/static/_img/logo_globo.png" alt="O Globo"></a>
+               </div>
+               <div class="social">
+                  <ul>
+                     <li class="fb"><a rel="nofollow" href="https://www.facebook.com/jornaloglobo" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                     <li class="tw"><a rel="nofollow" href="https://twitter.com/JornalOGlobo" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                     <li class="g"><a rel="nofollow" href="https://plus.google.com/u/1/+JornalOGlobo/posts" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                  </ul>
+               </div>
+               <div class="assine">
+                  <a rel="nofollow" href="https://seguro.oglobo.com.br/assinatura/Default.aspx?id_parc=12" target="_blank">Clique e Assine</a>
+               </div>
+            </div>
+         </div>
+         <div id="sitemap">
+            <ul>
+               <li><a href="http://oglobo.globo.com/brasil/" target="_blank">Brasil</a></li>
+               <li><a rel="nofollow" href="http://oglobo.globo.com/rio/" target="_blank">Rio</a></li>
+               <li><a rel="nofollow" href="http://oglobo.globo.com/economia/" target="_blank">Economia</a></li>
+               <li><a rel="nofollow" href="http://oglobo.globo.com/sociedade/" target="_blank">Sociedade</a></li>
+               <li><a rel="nofollow" href="http://oglobo.globo.com/mundo/" target="_blank">Mundo</a></li>
+               <li><a rel="nofollow" href="http://oglobo.globo.com/sociedade/tecnologia/" target="_blank">Tecnologia</a></li>
+               <li><a rel="nofollow" href="http://oglobo.globo.com/sociedade/saude/" target="_blank">Saúde</a></li>
+               <li><a rel="nofollow" href="http://oglobo.globo.com/sociedade/ciencia/" target="_blank">Ciência</a></li>
+               <li><a rel="nofollow" href="http://oglobo.globo.com/cultura/" target="_blank">Cultura</a></li>
+               <li><a rel="nofollow" href="http://oglobo.globo.com/esportes/">Esportes</a></li>
+               <li><a rel="nofollow" href="http://oglobo.globo.com/ultimas-noticias/">Últimas</a></li>
+            </ul>
+         </div>
+         <div id="gda">
+            <p class="gda"><a rel="nofollow" href="http://www.gda.com/" target="_blank">GDA</a></p>
+            <p class="copyright">© 1996 - <span class="year">2012</span>. Todos direitos reservados a Infoglobo Comunicação e Participações S.A. Este material não pode ser publicado, transmitido por broadcast, reescrito ou redistribuído sem autorização.</p>
+         </div>
+         <div id="institutional">
+            <div class="wrapper">
+               <ul>
+                  <li><a rel="nofollow" href="http://www.centraldoassinante.oglobo.com.br/" target="_blank">Central do Assinante</a></li>
+                  <li><a rel="nofollow" href="https://clubesoumaisrio.oglobo.globo.com/" target="_blank">Clube do Assinante</a></li>
+                  <li><a rel="nofollow" href="https://seguro.oglobo.com.br/assinatura/Default.aspx?id_parc=26&utm_source=venda&utm_medium=botaooglobo&utm_campaign=footer" target="_blank">Faça sua assinatura</a></li>
+                  <li><a rel="nofollow" href="http://www.agenciaoglobo.com.br/" target="_blank">Agência O Globo</a></li>
+                  <li><a rel="nofollow" href="O Globo Shopping" target="_blank">O Globo Shopping</a></li>
+                  <li><a rel="nofollow" href="http://oglobo.globo.com/fale-conosco" target="_blank">Fale conosco</a></li>
+                  <li><a rel="nofollow" href="https://defesa.oglobo.com.br/" target="_blank">Defesa do Consumidor</a></li>
+                  <li><a rel="nofollow" href="http://oglobo.globo.com/expediente/" target="_blank">Expediente</a></li>
+                  <li><a rel="nofollow" href="http://oglobo.globo.com/anuncie/" target="_blank">Anuncie conosco</a></li>
+                  <li><a rel="nofollow" href="http://oglobo.globo.com/politica-de-privacidade/" target="_blank">Política de privacidade</a></li>
+                  <li><a rel="nofollow" href="http://oglobo.globo.com/termos-de-uso/" target="_blank">Termos de uso</a></li>
+               </ul>
+            </div>
+         </div>
+      </footer>
+   </body>
+</html>
