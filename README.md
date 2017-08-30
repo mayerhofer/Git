@@ -1,4 +1,4 @@
-# Git
+# InfoGlobo Joinha - Processo Seletivo
 Este projeto é para criar uma Restful API para permitir a avaliação de conteúdos postados em um Blog do InfoGlobo.
 
 Para testar, é preciso:
